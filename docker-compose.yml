@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+
+  api:
+    build: .
+    container_name: deploy-monitor-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:15
+    container_name: deploy-monitor-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: deploy_monitor
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis
+    container_name: deploy-monitor-redis
+    ports:
+      - "6379:6379"
